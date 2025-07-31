@@ -35,10 +35,26 @@ table(StockManagement) {
     last_checked_at : DateTimeField
 }
 
+table(PromotionEvent) {
+    primary_key(id) : Integer (PK)
+    name : CharField(50)
+    start_date : DateTimeField
+    end_date : DateTimeField
+    price_reduction : IntegerField
+}
+
+table(ProductPromotionEvent) {
+    primary_key(id) : Integer (PK)
+    foreign_key(product_id) : Integer (FK)
+    foreign_key(promotion_event_id) : Integer (FK)
+}
+
 ' Relationships
 Category ||--o{ Product : "has many"
 Category ||--o{ Category : "self-referencing"
 Product ||--|| StockManagement : "has one"
+Product ||--o{ ProductPromotionEvent : "has many"
+PromotionEvent ||--o{ ProductPromotionEvent : "has many"
 
 note right of Category
   Self-referencing relationship
@@ -54,6 +70,18 @@ note right of StockManagement
   One-to-one relationship
   with Product for inventory
   tracking
+end note
+
+note right of PromotionEvent
+  Defines promotional events
+  with discount percentages
+  (10%, 20%, 50%)
+end note
+
+note right of ProductPromotionEvent
+  Many-to-many relationship
+  between Product and PromotionEvent
+  with unique constraint
 end note
 
 @enduml 

@@ -72,6 +72,47 @@
 - `quantity` represents current stock level
 - `last_checked_at` tracks when inventory was last updated
 
+### 4. PromotionEvent Entity
+
+```
+┌─────────────────────────────────────┐
+│           PromotionEvent            │
+├─────────────────────────────────────┤
+│ PK  id              : Integer      │
+│     name            : CharField(50)│
+│     start_date      : DateTimeField│
+│     end_date        : DateTimeField│
+│     price_reduction : IntegerField │
+└─────────────────────────────────────┘
+```
+
+**Description:**
+
+- Defines promotional events and campaigns
+- `name` provides unique identifier for the promotion
+- `start_date` and `end_date` define promotion period
+- `price_reduction` stores discount percentage (10%, 20%, 50%)
+- Ordered by start date (newest first)
+
+### 5. ProductPromotionEvent Entity
+
+```
+┌─────────────────────────────────────┐
+│       ProductPromotionEvent         │
+├─────────────────────────────────────┤
+│ PK  id                  : Integer  │
+│ FK  product_id          : Integer  │
+│ FK  promotion_event_id  : Integer  │
+└─────────────────────────────────────┘
+```
+
+**Description:**
+
+- Junction table for many-to-many relationship between Product and PromotionEvent
+- Allows products to participate in multiple promotions
+- Allows promotions to include multiple products
+- Unique constraint prevents duplicate product-promotion combinations
+
 ## Relationships
 
 ### 1. Category → Product (One-to-Many)
@@ -104,6 +145,19 @@ Product (1) ──────── (1) StockManagement
 - Each stock record belongs to exactly one product
 - Foreign key: `StockManagement.product_id` → `Product.id`
 
+### 4. Product ↔ PromotionEvent (Many-to-Many)
+
+```
+Product (Many) ──────── (Many) PromotionEvent
+```
+
+- Products can participate in multiple promotions
+- Promotions can include multiple products
+- Junction table: `ProductPromotionEvent`
+- Foreign keys:
+  - `ProductPromotionEvent.product_id` → `Product.id`
+  - `ProductPromotionEvent.promotion_event_id` → `PromotionEvent.id`
+
 ## Database Constraints
 
 ### Primary Keys
@@ -111,12 +165,16 @@ Product (1) ──────── (1) StockManagement
 - `Category.id` - Auto-incrementing integer
 - `Product.id` - Auto-incrementing integer
 - `StockManagement.id` - Auto-incrementing integer
+- `PromotionEvent.id` - Auto-incrementing integer
+- `ProductPromotionEvent.id` - Auto-incrementing integer
 
 ### Foreign Keys
 
 - `Product.category_id` → `Category.id` (CASCADE delete)
 - `Category.parent_id` → `Category.id` (RESTRICT delete)
 - `StockManagement.product_id` → `Product.id` (CASCADE delete)
+- `ProductPromotionEvent.product_id` → `Product.id` (CASCADE delete)
+- `ProductPromotionEvent.promotion_event_id` → `PromotionEvent.id` (CASCADE delete)
 
 ### Unique Constraints
 
@@ -125,6 +183,8 @@ Product (1) ──────── (1) StockManagement
 - `Product.name` - Unique product names
 - `Product.slug` - Unique product slugs
 - `StockManagement.product_id` - One stock record per product
+- `PromotionEvent.name` - Unique promotion event names
+- `ProductPromotionEvent(product_id, promotion_event_id)` - Unique product-promotion combinations
 
 ## Indexes
 
@@ -135,6 +195,10 @@ Product (1) ──────── (1) StockManagement
 - `Product.category_id` - For category-based product queries
 - `Product.is_active` - For filtering active products
 - `StockManagement.product_id` - For stock lookups
+- `PromotionEvent.start_date` - For promotion date queries
+- `PromotionEvent.end_date` - For active promotion filtering
+- `ProductPromotionEvent.product_id` - For product promotion queries
+- `ProductPromotionEvent.promotion_event_id` - For promotion product queries
 
 ## Business Rules
 
@@ -145,3 +209,7 @@ Product (1) ──────── (1) StockManagement
 5. **Digital Products**: Products can be marked as digital (no physical inventory)
 6. **Price Precision**: Product prices stored with 2 decimal places
 7. **Slug Uniqueness**: Both categories and products have unique URL-friendly slugs
+8. **Promotion Management**: Products can participate in multiple promotional events
+9. **Promotion Periods**: Promotions have defined start and end dates
+10. **Discount Levels**: Promotions offer fixed discount percentages (10%, 20%, 50%)
+11. **Unique Promotions**: Each product-promotion combination can only exist once
