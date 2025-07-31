@@ -58,6 +58,7 @@ def load_product_data():
 
 def load_stock_management_data():
     import csv
+
     from products.models import StockManagement
 
     with open('./data/stockmanagement.csv', 'r') as file:
@@ -82,6 +83,7 @@ def load_stock_management_data():
 
 def load_promotion_event_data():
     import csv
+
     from promotions.models import PromotionEvent
 
     with open('./data/promotionevent.csv', 'r') as file:
@@ -103,6 +105,7 @@ def load_promotion_event_data():
 
 def load_product_promotion_event_data():
     import csv
+
     from promotions.models import ProductPromotionEvent
 
     with open('./data/productpromotionevent.csv', 'r') as file:
@@ -115,5 +118,63 @@ def load_product_promotion_event_data():
             product_promotion_event.save()
 
     print(ProductPromotionEvent.objects.all())
+    
+
+
+# Seed user data to user table
+# from custom_scripts.load_data_from_csv import load_user_data
+# load_user_data()
+def load_user_data():
+    import csv
+
+    from django.contrib.auth.models import User
+
+    with open('./data/user.csv', 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            user = User(
+                username=row['username'],
+                email=row['email'],
+            )
+            user.set_password(row['password'])  # Ensure to hash the password
+            user.save()
+
+    print(User.objects.all())   
+
+# Seed order data to order table
+# from custom_scripts.load_data_from_csv import load_order_data
+# load_order_data()
+# Note: This assumes that the order data includes a user_id and a list of products in a specific format.  
+def load_order_data():
+    import csv
+
+    from django.contrib.auth.models import User
+
+    from orders.models import Order, OrderProduct
+
+    with open('./data/order.csv', 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            user = User.objects.get(id=row['user_id'])
+            order = Order(
+                user=user,
+                created_at=row['created_at'],
+                updated_at=row['updated_at']
+            )
+            order.save()
+
+            # Now load the order products
+            order_product_data = row['products'].split(';')  # Assuming products are separated by semicolons
+            for product_data in order_product_data:
+                product_id, quantity = product_data.split(',')
+                order_product = OrderProduct(
+                    order=order,
+                    product_id=product_id,
+                    quantity=int(quantity)
+                )
+                order_product.save()
+
+    print(Order.objects.all())
+    print(OrderProduct.objects.all())
 
 

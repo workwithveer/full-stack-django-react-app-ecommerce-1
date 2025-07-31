@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'products',  # Assuming 'products' is the app name for the models provided
     'promotions', # Assuming 'promotions' is the app name for the promotion models
+    'orders',  # Assuming 'orders' is the app name for the order models
 ]
 
 MIDDLEWARE = [
