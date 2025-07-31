@@ -13,9 +13,9 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,11 +24,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
+# # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = os.getenv('SECRET_KEY')
+
+# # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = os.getenv('DEBUG') == 'True'
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'django-insecure-jj3=h(7%*%-plt*-7vu=l-k3uj2gh2+%@ir+e*$xqjhyfjsxr4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG') == 'True'
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -42,12 +48,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Third-party apps
     'rest_framework',
     'drf_spectacular',
-    # Local apps
     'products',  # Assuming 'products' is the app name for the models provided
-    'promotions',
+    'promotions', # Assuming 'promotions' is the app name for the promotion models
 ]
 
 MIDDLEWARE = [
@@ -144,3 +148,9 @@ SPECTACULAR_SETTINGS = {
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
+
+# SHELL_PLUS_PRE_IMPORTS = ["sqlparse"]
+
+# SHELL_PLUS_IMPORTS = [
+#  "from custom_scripts.load_data_from_csv import *"
+# ]

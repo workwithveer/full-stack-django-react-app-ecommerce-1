@@ -1,0 +1,59 @@
+@startuml E-commerce ERD
+
+!define table(x) class x << (T,#FFAAAA) >>
+!define primary_key(x) <b>x</b>
+!define foreign_key(x) <i>x</i>
+
+title E-commerce Entity Relationship Diagram
+
+table(Category) {
+    primary_key(id) : Integer (PK)
+    foreign_key(parent_id) : Integer (FK)
+    name : CharField(50)
+    slug : SlugField(55)
+    is_active : Boolean
+    level : SmallInteger
+}
+
+table(Product) {
+    primary_key(id) : Integer (PK)
+    foreign_key(category_id) : Integer (FK)
+    name : CharField(50)
+    slug : SlugField(55)
+    description : TextField
+    is_digital : Boolean
+    is_active : Boolean
+    created_at : DateTimeField
+    updated_at : DateTimeField
+    price : DecimalField(10,2)
+}
+
+table(StockManagement) {
+    primary_key(id) : Integer (PK)
+    foreign_key(product_id) : Integer (FK)
+    quantity : Integer
+    last_checked_at : DateTimeField
+}
+
+' Relationships
+Category ||--o{ Product : "has many"
+Category ||--o{ Category : "self-referencing"
+Product ||--|| StockManagement : "has one"
+
+note right of Category
+  Self-referencing relationship
+  for hierarchical categories
+end note
+
+note right of Product
+  Each product belongs to
+  exactly one category
+end note
+
+note right of StockManagement
+  One-to-one relationship
+  with Product for inventory
+  tracking
+end note
+
+@enduml 

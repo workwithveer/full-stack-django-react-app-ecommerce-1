@@ -8,8 +8,8 @@
     "linting.lintOnSave": true,
     "linting.flake8Args": ["--max-line-length=119"],
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true,
-      "source.fixAll": true
+      "source.organizeImports": "explicit",
+      "source.fixAll": "explicit"
     }
   }
 }

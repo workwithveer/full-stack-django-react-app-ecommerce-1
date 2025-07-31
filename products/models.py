@@ -2,6 +2,7 @@
 from django.db import models
 
 
+# Category model to represent product categories
 class Category(models.Model):
     parent = models.ForeignKey(
         "self",
@@ -17,7 +18,9 @@ class Category(models.Model):
         ordering = ["name"]
     def __str__(self):
         return f"{self.id}-{self.name}-{self.level}-{self.is_active}"
-    
+
+
+# One-to-Many relationship between Category and Product where each category can have multiple products    
 class Product(models.Model):
     category = models.ForeignKey(
         Category,
@@ -37,7 +40,8 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-
+# Display Relationship between Product and StockManagement
+# One-to-One relationship where each product has a unique stock management record
 class StockManagement(models.Model):
     product = models.OneToOneField(
         Product,
