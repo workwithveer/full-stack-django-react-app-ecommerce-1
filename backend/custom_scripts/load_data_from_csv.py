@@ -184,4 +184,15 @@ def load_order_product_data():
 
     print(OrderProduct.objects.all())
 
+# seed all data
+# from custom_scripts.load_data_from_csv import load_all_data
+# load_all_data()
 
+def load_all_data():
+    load_category_data()
+    load_product_data()
+    load_stock_management_data()
+    load_promotion_event_data()
+    load_product_promotion_event_data()
+    load_user_data()
+    load_order_data()
