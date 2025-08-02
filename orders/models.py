@@ -10,7 +10,7 @@ class Order(models.Model):
     class Meta:
         ordering = ["-created_at"]
     def __str__(self):
-        return f"Order {self.id} by {self.user.username}"
+        return f"Order by {self.user.username}"
 
 class OrderProduct(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)

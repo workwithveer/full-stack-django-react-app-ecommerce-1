@@ -150,7 +150,7 @@ def load_order_data():
 
     from django.contrib.auth.models import User
 
-    from orders.models import Order, OrderProduct
+    from orders.models import Order
 
     with open('./data/order.csv', 'r') as file:
         reader = csv.DictReader(file)
@@ -163,18 +163,25 @@ def load_order_data():
             )
             order.save()
 
-            # Now load the order products
-            order_product_data = row['products'].split(';')  # Assuming products are separated by semicolons
-            for product_data in order_product_data:
-                product_id, quantity = product_data.split(',')
-                order_product = OrderProduct(
-                    order=order,
-                    product_id=product_id,
-                    quantity=int(quantity)
-                )
-                order_product.save()
-
     print(Order.objects.all())
+
+# seed data for order product table
+# from custom_scripts.load_data_from_csv import load_order_product_data
+# load_order_product_data()
+def load_order_product_data():
+    import csv
+    from orders.models import OrderProduct, Order
+    
+    with open('./data/orderproduct.csv', 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            order_product = OrderProduct(
+                order=Order.objects.get(id=row['order_id']),
+                product_id=row['product_id'],
+                quantity=row['quantity']
+            )
+            order_product.save()
+
     print(OrderProduct.objects.all())
 
 

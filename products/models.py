@@ -17,7 +17,7 @@ class Category(models.Model):
     class Meta:
         ordering = ["name"]
     def __str__(self):
-        return f"{self.id}-{self.name}-{self.level}-{self.is_active}"
+        return f"{self.id}-{self.name}"
 
 
 # One-to-Many relationship between Category and Product where each category can have multiple products    
