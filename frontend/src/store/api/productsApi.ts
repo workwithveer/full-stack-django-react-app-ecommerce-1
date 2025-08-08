@@ -22,9 +22,30 @@ export const productsApi = createApi({
     // Get all products with optional filtering
     getAllProducts: builder.query<Product[], void>({
       query: () => "products/",
-      transformResponse: (response: ProductsResponse) => {
-        console.log("API Response:", response);
-        return response.results || [];
+      transformResponse: (response: any) => {
+        console.log("Raw API Response:", response);
+
+        // Handle both paginated and non-paginated responses
+        if (response && typeof response === "object") {
+          // If response has 'results' property, it's paginated
+          if ("results" in response && Array.isArray(response.results)) {
+            console.log("Paginated response detected, using results array");
+            return response.results;
+          }
+          // If response is an array directly
+          else if (Array.isArray(response)) {
+            console.log("Direct array response detected");
+            return response;
+          }
+          // If response has 'data' property
+          else if ("data" in response && Array.isArray(response.data)) {
+            console.log("Data property response detected");
+            return response.data;
+          }
+        }
+
+        console.log("No valid response structure found, returning empty array");
+        return [];
       },
       // Pick out errors and prevent nested properties in a hook or selector
       transformErrorResponse: (response: { status: string | number }) =>
