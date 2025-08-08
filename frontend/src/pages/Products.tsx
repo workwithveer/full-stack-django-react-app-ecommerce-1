@@ -56,6 +56,10 @@ const Products: React.FC = () => {
     setSelectedCategory(category);
   };
 
+  console.log("productsData", productsData);
+
+  console.log("filteredProducts", filteredProducts);
+
   return (
     <Box sx={{ mt: 10 }}>
       <Box sx={{ mb: 4 }}>
@@ -97,96 +101,100 @@ const Products: React.FC = () => {
                 gap: 3,
               }}
             >
-              {filteredProducts.map((product) => (
-                <Card
-                  key={product.id}
-                  sx={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    transition: "transform 0.2s ease-in-out",
-                    "&:hover": {
-                      transform: "translateY(-4px)",
-                      boxShadow: 3,
-                    },
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={
-                      product.imageUrl ||
-                      "https://placehold.co/300x200/EEE/31343C"
-                    }
-                    alt={product.name}
-                    sx={{ objectFit: "cover" }}
-                  />
-                  <CardContent
+              {filteredProducts &&
+                filteredProducts.length > 0 &&
+                filteredProducts.map((product) => (
+                  <Card
+                    key={product.id}
                     sx={{
-                      flexGrow: 1,
+                      height: "100%",
                       display: "flex",
                       flexDirection: "column",
+                      transition: "transform 0.2s ease-in-out",
+                      "&:hover": {
+                        transform: "translateY(-4px)",
+                        boxShadow: 3,
+                      },
                     }}
                   >
-                    <Box sx={{ mb: 1 }}>
-                      <Chip
-                        label={product.category.name}
-                        size="small"
-                        color="primary"
-                        variant="outlined"
-                      />
-                    </Box>
-
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="h2"
-                      sx={{ flexGrow: 1 }}
+                    <CardMedia
+                      component="img"
+                      height="200"
+                      image={
+                        product.imageUrl ||
+                        "https://placehold.co/300x200/EEE/31343C"
+                      }
+                      alt={product.name}
+                      sx={{ objectFit: "cover" }}
+                    />
+                    <CardContent
+                      sx={{
+                        flexGrow: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
                     >
-                      {product.name}
-                    </Typography>
-
-                    {product.rating && (
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", mb: 1 }}
-                      >
-                        <Rating
-                          value={product.rating}
-                          precision={0.1}
-                          readOnly
+                      <Box sx={{ mb: 1 }}>
+                        <Chip
+                          label={product.category.name}
                           size="small"
+                          color="primary"
+                          variant="outlined"
                         />
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{ ml: 1 }}
-                        >
-                          ({product.reviewCount || 0})
-                        </Typography>
                       </Box>
-                    )}
 
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                       <Typography
+                        gutterBottom
                         variant="h6"
-                        color="primary"
-                        sx={{ fontWeight: "bold" }}
+                        component="h2"
+                        sx={{ flexGrow: 1 }}
                       >
-                        ${product.price}
+                        {product.name}
                       </Typography>
-                      {product.price && (
+
+                      {product.rating && (
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", mb: 1 }}
+                        >
+                          <Rating
+                            value={product.rating}
+                            precision={0.1}
+                            readOnly
+                            size="small"
+                          />
+                          <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{ ml: 1 }}
+                          >
+                            ({product.reviewCount || 0})
+                          </Typography>
+                        </Box>
+                      )}
+
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", mb: 2 }}
+                      >
                         <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{ textDecoration: "line-through", ml: 1 }}
+                          variant="h6"
+                          color="primary"
+                          sx={{ fontWeight: "bold" }}
                         >
                           ${product.price}
                         </Typography>
-                      )}
-                    </Box>
-                  </CardContent>
-                </Card>
-              ))}
+                        {product.price && (
+                          <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{ textDecoration: "line-through", ml: 1 }}
+                          >
+                            ${product.price}
+                          </Typography>
+                        )}
+                      </Box>
+                    </CardContent>
+                  </Card>
+                ))}
             </Box>
           ) : (
             <Alert severity="info">
