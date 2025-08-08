@@ -12,6 +12,7 @@ import {
   Avatar,
   useTheme,
   useMediaQuery,
+  CssBaseline,
 } from "@mui/material";
 import {
   Menu as MenuIcon,
@@ -19,21 +20,26 @@ import {
   AccountCircle as AccountIcon,
   Notifications as NotificationsIcon,
 } from "@mui/icons-material";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { useAppSelector } from "../../store/hooks";
+import { selectCartItemCount } from "../../store/slices/cartSlice";
 import { MobileDrawer } from "./MobileDrawer";
 import { SearchBar } from "./SearchBar";
 
 const navigationItems = [
   { label: "Home", path: "/" },
-  { label: "Categories", path: "/categories" },
+  { label: "Products", path: "/products" },
   { label: "Promotions", path: "/promotions" },
 ];
 
 export const Navigation: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [cartItemCount, setCartItemCount] = useState(3); // Demo count
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const cartItemCount = useAppSelector(selectCartItemCount);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -52,11 +58,29 @@ export const Navigation: React.FC = () => {
 
   const handleSearch = (query: string) => {
     console.log("Search query:", query);
-    // Implement search functionality
+    // Navigate to products page with search query
+    navigate(`/products?search=${encodeURIComponent(query)}`);
   };
 
   const handleLogout = () => {
     logout();
+    handleMenuClose();
+    navigate("/");
+  };
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    if (isMobile) {
+      setMobileOpen(false);
+    }
+  };
+
+  const handleCartClick = () => {
+    navigate("/cart");
+  };
+
+  const handleProfileClick = () => {
+    navigate("/profile");
     handleMenuClose();
   };
 
@@ -79,15 +103,16 @@ export const Navigation: React.FC = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My Orders</MenuItem>
       <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 
   return (
-    <>
-      <AppBar position="sticky" color="default" elevation={1}>
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <AppBar component="nav">
         <Toolbar>
           {/* Mobile Menu Button */}
           {isMobile && (
@@ -105,15 +130,9 @@ export const Navigation: React.FC = () => {
           {/* Logo/Brand */}
           <Typography
             variant="h6"
-            noWrap
             component="div"
-            sx={{
-              display: { xs: "none", sm: "block" },
-              flexGrow: { xs: 0, sm: 0 },
-              mr: 3,
-              fontWeight: "bold",
-              color: "primary.main",
-            }}
+            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            onClick={() => handleNavigation("/")}
           >
             E-Commerce Store
           </Typography>
@@ -125,7 +144,17 @@ export const Navigation: React.FC = () => {
                 <Button
                   key={item.label}
                   color="inherit"
-                  sx={{ textTransform: "none" }}
+                  sx={{
+                    textTransform: "none",
+                    backgroundColor:
+                      location.pathname === item.path
+                        ? "rgba(25, 118, 210, 0.08)"
+                        : "transparent",
+                    "&:hover": {
+                      backgroundColor: "rgba(25, 118, 210, 0.12)",
+                    },
+                  }}
+                  onClick={() => handleNavigation(item.path)}
                 >
                   {item.label}
                 </Button>
@@ -148,7 +177,7 @@ export const Navigation: React.FC = () => {
             </IconButton>
 
             {/* Shopping Cart */}
-            <IconButton color="inherit">
+            <IconButton color="inherit" onClick={handleCartClick}>
               <Badge badgeContent={cartItemCount} color="secondary">
                 <CartIcon />
               </Badge>
@@ -181,10 +210,12 @@ export const Navigation: React.FC = () => {
         onClose={handleDrawerToggle}
         user={user}
         onLogout={logout}
+        onNavigation={handleNavigation}
+        currentPath={location.pathname}
       />
 
       {/* User Menu */}
       {renderMenu}
-    </>
+    </Box>
   );
 };

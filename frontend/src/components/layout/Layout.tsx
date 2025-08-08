@@ -1,6 +1,6 @@
-import React from 'react';
-import { Box, Container } from '@mui/material';
-import { Navigation } from '../navigation/Navigation';
+import React from "react";
+import { Container, CssBaseline } from "@mui/material";
+import { Navigation } from "../navigation/Navigation";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -8,11 +8,12 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <React.Fragment>
+      <CssBaseline />
       <Navigation />
-      <Container component="main" sx={{ flexGrow: 1, py: 3 }}>
+      <Container maxWidth={false} sx={{ px: 2 }}>
         {children}
       </Container>
-    </Box>
+    </React.Fragment>
   );
 };

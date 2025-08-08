@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_filters',
+    'corsheaders',
     'drf_spectacular',
     'products',  # Assuming 'products' is the app name for the models provided
     'promotions', # Assuming 'promotions' is the app name for the promotion models
@@ -56,6 +58,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # Must be placed as high as possible
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -139,15 +142,147 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AUTH_USER_MODEL = 'account.AccountUser'  # Custom user model
 
+# CORS Configuration
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:4173",
+    "http://127.0.0.1:4173",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+# Django REST Framework Configuration
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
 }
 
+# DRF Spectacular Configuration
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Your Project API',
-    'DESCRIPTION': 'Your project description',
+    'TITLE': 'E-Commerce API',
+    'DESCRIPTION': '''
+    # E-Commerce API Documentation
+    
+    This API provides comprehensive endpoints for managing an e-commerce platform including:
+    
+    ## Features
+    - **Product Management**: CRUD operations for products with filtering and search
+    - **Category Management**: Organize products into categories with hierarchical support
+    - **Stock Management**: Track inventory levels and stock movements
+    - **Order Processing**: Handle customer orders and order status
+    - **Promotion System**: Manage discounts and promotional events
+    
+    ## Authentication
+    - Read operations are publicly accessible
+    - Write operations require authentication
+    
+    ## Filtering & Search
+    - Products can be filtered by name, category, price range, and status
+    - Full-text search across product names and descriptions
+    - Ordering by various fields (name, price, date created, etc.)
+    
+    ## Pagination
+    - All list endpoints support pagination
+    - Default page size: 20 items
+    - Customizable page size via query parameter
+    
+    ## Rate Limiting
+    - API calls are rate-limited to ensure fair usage
+    - Different limits for authenticated and anonymous users
+    ''',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SCHEMA_PATH_PREFIX': '/api/',
+    'SWAGGER_UI_SETTINGS': {
+        'persistAuthorization': True,
+        'displayOperationId': True,
+        'filter': True,
+        'showExtensions': True,
+        'showCommonExtensions': True,
+    },
+    'REDOC_UI_SETTINGS': {
+        'hideDownloadButton': False,
+        'hideHostname': False,
+        'hideLoading': False,
+        'nativeScrollbars': False,
+        'pathInMiddlePanel': True,
+        'requiredPropsFirst': True,
+        'scrollYOffset': 0,
+        'showExtensions': True,
+        'sortPropsAlphabetically': True,
+        'suppressWarnings': False,
+        'theme': {
+            'colors': {
+                'primary': {
+                    'main': '#1976d2'
+                }
+            }
+        }
+    },
+    'TAGS': [
+        {'name': 'Products', 'description': 'Product management operations'},
+        {'name': 'Categories', 'description': 'Category management operations'},
+        {'name': 'Stock Management', 'description': 'Inventory and stock tracking'},
+        {'name': 'Orders', 'description': 'Order processing and management'},
+        {'name': 'Promotions', 'description': 'Promotional events and discounts'},
+    ],
+    'CONTACT': {
+        'name': 'API Support',
+        'email': 'support@ecommerce.com',
+        'url': 'https://ecommerce.com/support'
+    },
+    'LICENSE': {
+        'name': 'MIT License',
+        'url': 'https://opensource.org/licenses/MIT'
+    },
+    'SERVERS': [
+        {
+            'url': 'http://localhost:8000',
+            'description': 'Development server'
+        },
+        {
+            'url': 'https://api.ecommerce.com',
+            'description': 'Production server'
+        }
+    ],
 }
 
 # SHELL_PLUS_PRE_IMPORTS = ["sqlparse"]

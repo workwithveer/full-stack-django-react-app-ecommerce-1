@@ -26,14 +26,16 @@ interface MobileDrawerProps {
   onClose: () => void;
   user: User | null;
   onLogout: () => void;
+  onNavigation: (path: string) => void;
+  currentPath: string;
 }
 
 const navigationItems: NavigationItem[] = [
   { id: "home", label: "Home", path: "/", icon: HomeIcon },
   {
-    id: "categories",
-    label: "Categories",
-    path: "/categories",
+    id: "products",
+    label: "Products",
+    path: "/products",
     icon: CategoryIcon,
   },
   {
@@ -49,7 +51,14 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
   onClose,
   user,
   onLogout,
+  onNavigation,
+  currentPath,
 }) => {
+  const handleNavigation = (path: string) => {
+    onNavigation(path);
+    onClose();
+  };
+
   return (
     <Drawer
       anchor="left"
@@ -61,7 +70,12 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
     >
       <Box sx={{ width: 250 }}>
         <Box sx={{ p: 2, borderBottom: 1, borderColor: "divider" }}>
-          <Typography variant="h6" component="div">
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ cursor: "pointer" }}
+            onClick={() => handleNavigation("/")}
+          >
             E-Commerce Store
           </Typography>
         </Box>
@@ -69,7 +83,22 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
         <List>
           {navigationItems.map((item) => (
             <ListItem key={item.id} disablePadding>
-              <ListItemButton>
+              <ListItemButton
+                onClick={() => handleNavigation(item.path)}
+                selected={currentPath === item.path}
+                sx={{
+                  backgroundColor:
+                    currentPath === item.path
+                      ? "rgba(25, 118, 210, 0.08)"
+                      : "transparent",
+                  "&.Mui-selected": {
+                    backgroundColor: "rgba(25, 118, 210, 0.12)",
+                    "&:hover": {
+                      backgroundColor: "rgba(25, 118, 210, 0.16)",
+                    },
+                  },
+                }}
+              >
                 <ListItemIcon>{item.icon && <item.icon />}</ListItemIcon>
                 <ListItemText primary={item.label} />
               </ListItemButton>
@@ -81,7 +110,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
 
         <List>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => handleNavigation("/cart")}>
               <ListItemIcon>
                 <CartIcon />
               </ListItemIcon>
@@ -92,7 +121,7 @@ export const MobileDrawer: React.FC<MobileDrawerProps> = ({
           {user ? (
             <>
               <ListItem disablePadding>
-                <ListItemButton>
+                <ListItemButton onClick={() => handleNavigation("/profile")}>
                   <ListItemIcon>
                     <ProfileIcon />
                   </ListItemIcon>
