@@ -5,8 +5,8 @@ export interface CartItem {
   id: number;
   name: string;
   price: number;
-  original_price?: number;
-  image_url: string;
+  originalPrice?: number;
+  imageUrl: string;
   quantity: number;
   inStock: boolean;
 }

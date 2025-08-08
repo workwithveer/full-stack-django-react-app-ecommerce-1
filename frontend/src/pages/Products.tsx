@@ -10,8 +10,13 @@ import {
   CircularProgress,
   Alert,
   Paper,
+  Button,
+  Snackbar,
 } from "@mui/material";
+import { AddShoppingCart } from "@mui/icons-material";
 import { useGetAllProductsQuery } from "../store/api/productsApi";
+import { useAppDispatch } from "../store/hooks";
+import { addToCart } from "../store/slices/cartSlice";
 import Categories from "./Categories";
 import type { Category } from "../models/category";
 
@@ -19,6 +24,10 @@ const Products: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [addedProductName, setAddedProductName] = useState("");
+
+  const dispatch = useAppDispatch();
 
   // Fetch products and categories
   const {
@@ -33,6 +42,34 @@ const Products: React.FC = () => {
         (product) => product.category.id === selectedCategory.id
       )
     : productsData;
+
+  const handleCategorySelect = (category: Category | null) => {
+    setSelectedCategory(category);
+  };
+
+  const handleAddToCart = (product: any) => {
+    dispatch(
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: parseFloat(product.price),
+        imageUrl: product.imageUrl || "https://placehold.co/50x50/EEE/31343C",
+        quantity: 1,
+        inStock: product.is_active,
+      })
+    );
+
+    setAddedProductName(product.name);
+    setSnackbarOpen(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+
+  console.log("productsData", productsData);
+
+  console.log("filteredProducts", filteredProducts);
 
   if (productsLoading) {
     return (
@@ -52,14 +89,6 @@ const Products: React.FC = () => {
     );
   }
 
-  const handleCategorySelect = (category: Category | null) => {
-    setSelectedCategory(category);
-  };
-
-  console.log("productsData", productsData);
-
-  console.log("filteredProducts", filteredProducts);
-
   return (
     <Box sx={{ mt: 10 }}>
       <Box sx={{ mb: 4 }}>
@@ -73,7 +102,7 @@ const Products: React.FC = () => {
 
       {/* Main content with sidebar and products grid */}
       <Box sx={{ display: "flex", gap: 3 }}>
-        {/* Categories Sidebar - 30% width */}
+        {/* Categories Sidebar - 25% width */}
         <Box sx={{ width: "25%", minWidth: 250 }}>
           <Paper
             sx={{ p: 2, height: "fit-content", position: "sticky", top: 20 }}
@@ -85,7 +114,7 @@ const Products: React.FC = () => {
           </Paper>
         </Box>
 
-        {/* Products Grid - 70% width */}
+        {/* Products Grid - 75% width */}
         <Box sx={{ width: "75%", flexGrow: 1 }}>
           {filteredProducts && filteredProducts.length > 0 ? (
             <Box
@@ -182,16 +211,25 @@ const Products: React.FC = () => {
                         >
                           ${product.price}
                         </Typography>
-                        {product.price && (
-                          <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            sx={{ textDecoration: "line-through", ml: 1 }}
-                          >
-                            ${product.price}
-                          </Typography>
-                        )}
                       </Box>
+
+                      {/* Add to Cart Button */}
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        startIcon={<AddShoppingCart />}
+                        onClick={() => handleAddToCart(product)}
+                        sx={{
+                          mt: "auto",
+                          width: "100%",
+                          py: 1,
+                          "&:hover": {
+                            transform: "scale(1.02)",
+                          },
+                        }}
+                      >
+                        Add to Cart
+                      </Button>
                     </CardContent>
                   </Card>
                 ))}
@@ -205,6 +243,15 @@ const Products: React.FC = () => {
           )}
         </Box>
       </Box>
+
+      {/* Success Snackbar */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        message={`${addedProductName} added to cart!`}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      />
     </Box>
   );
 };

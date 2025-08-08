@@ -20,54 +20,31 @@ import {
   ShoppingCart,
   ArrowBack,
 } from "@mui/icons-material";
-
-// Mock cart data - in a real app, this would come from state management
-const mockCartItems = [
-  {
-    id: 1,
-    name: "Wireless Headphones",
-    price: 99.99,
-    originalPrice: 129.99,
-    image: "https://via.placeholder.com/150x150?text=Headphones",
-    quantity: 2,
-    inStock: true,
-  },
-  {
-    id: 2,
-    name: "Smart Watch",
-    price: 199.99,
-    originalPrice: 249.99,
-    image: "https://via.placeholder.com/150x150?text=Smart+Watch",
-    quantity: 1,
-    inStock: true,
-  },
-  {
-    id: 3,
-    name: "Coffee Maker",
-    price: 149.99,
-    originalPrice: 199.99,
-    image: "https://via.placeholder.com/150x150?text=Coffee+Maker",
-    quantity: 1,
-    inStock: false,
-  },
-];
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import {
+  removeFromCart,
+  updateQuantity,
+  type CartItem,
+} from "../store/slices/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 const Cart: React.FC = () => {
-  const [cartItems, setCartItems] = useState(mockCartItems);
+  // const [cartItems, setCartItems] = useState(mockCartItems);
+  const cartItems: CartItem[] | [] = useAppSelector(
+    (state) => state.cart.items || []
+  );
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const updateQuantity = (itemId: number, newQuantity: number) => {
-    if (newQuantity < 1) return;
+  // const updateQuantityHandler = (itemId: number, newQuantity: number) => {
+  //   if (newQuantity < 1) return;
 
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === itemId ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
+  //   dispatch(updateQuantity({ id: itemId, quantity: newQuantity }));
+  // };
 
-  const removeItem = (itemId: number) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
-  };
+  // const removeItem = (itemId: number) => {
+  //   dispatch(removeFromCart(itemId));
+  // };
 
   const calculateSubtotal = () => {
     return cartItems.reduce(
@@ -76,15 +53,16 @@ const Cart: React.FC = () => {
     );
   };
 
-  const calculateDiscount = () => {
+  // calcaulte tax 13% of the subtotal
+  const calculateTax = () => {
     return cartItems.reduce((total, item) => {
-      const discount = (item.originalPrice - item.price) * item.quantity;
-      return total + discount;
+      const tax = item.price * 0.13 * item.quantity;
+      return total + tax;
     }, 0);
   };
 
   const calculateTotal = () => {
-    return calculateSubtotal() - calculateDiscount();
+    return calculateSubtotal() + calculateTax();
   };
 
   const handleCheckout = () => {
@@ -94,12 +72,12 @@ const Cart: React.FC = () => {
 
   const handleContinueShopping = () => {
     console.log("Continue shopping...");
-    // TODO: Navigate to products page
+    navigate("/products");
   };
 
   if (cartItems.length === 0) {
     return (
-      <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Container maxWidth="lg" sx={{ marginTop: 10 }}>
         <Box sx={{ textAlign: "center", py: 8 }}>
           <ShoppingCart sx={{ fontSize: 64, color: "text.secondary", mb: 2 }} />
           <Typography variant="h5" component="h1" gutterBottom>
@@ -122,7 +100,7 @@ const Cart: React.FC = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ marginTop: 5 }}>
       <Box sx={{ mb: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Shopping Cart
@@ -147,7 +125,7 @@ const Cart: React.FC = () => {
                     <CardMedia
                       component="img"
                       sx={{ width: 80, height: 80, mr: 2, borderRadius: 1 }}
-                      image={item.image}
+                      image={item.imageUrl}
                       alt={item.name}
                     />
 
@@ -165,13 +143,13 @@ const Cart: React.FC = () => {
                         >
                           ${item.price}
                         </Typography>
-                        {item.originalPrice > item.price && (
+                        {item.price && (
                           <Typography
                             variant="body2"
                             color="text.secondary"
                             sx={{ textDecoration: "line-through", ml: 1 }}
                           >
-                            ${item.originalPrice}
+                            ${item.price}
                           </Typography>
                         )}
                       </Box>
@@ -186,7 +164,12 @@ const Cart: React.FC = () => {
                       <IconButton
                         size="small"
                         onClick={() =>
-                          updateQuantity(item.id, item.quantity - 1)
+                          dispatch(
+                            updateQuantity({
+                              id: item.id,
+                              quantity: item.quantity - 1,
+                            })
+                          )
                         }
                         disabled={!item.inStock}
                       >
@@ -198,7 +181,9 @@ const Cart: React.FC = () => {
                         onChange={(e) => {
                           const value = parseInt(e.target.value);
                           if (!isNaN(value)) {
-                            updateQuantity(item.id, value);
+                            dispatch(
+                              updateQuantity({ id: item.id, quantity: value })
+                            );
                           }
                         }}
                         sx={{ width: 60 }}
@@ -207,7 +192,12 @@ const Cart: React.FC = () => {
                       <IconButton
                         size="small"
                         onClick={() =>
-                          updateQuantity(item.id, item.quantity + 1)
+                          dispatch(
+                            updateQuantity({
+                              id: item.id,
+                              quantity: item.quantity + 1,
+                            })
+                          )
                         }
                         disabled={!item.inStock}
                       >
@@ -215,7 +205,7 @@ const Cart: React.FC = () => {
                       </IconButton>
                       <IconButton
                         color="error"
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => dispatch(removeFromCart(item.id))}
                       >
                         <Delete />
                       </IconButton>
@@ -247,7 +237,7 @@ const Cart: React.FC = () => {
                   <Typography>Subtotal:</Typography>
                   <Typography>${calculateSubtotal().toFixed(2)}</Typography>
                 </Box>
-                {calculateDiscount() > 0 && (
+                {calculateTax() > 0 && (
                   <Box
                     sx={{
                       display: "flex",
@@ -255,9 +245,9 @@ const Cart: React.FC = () => {
                       mb: 1,
                     }}
                   >
-                    <Typography color="success.main">Discount:</Typography>
+                    <Typography color="success.main">Tax:</Typography>
                     <Typography color="success.main">
-                      -${calculateDiscount().toFixed(2)}
+                      +${calculateTax().toFixed(2)}
                     </Typography>
                   </Box>
                 )}
