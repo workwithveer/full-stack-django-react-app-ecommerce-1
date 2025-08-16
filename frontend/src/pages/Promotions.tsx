@@ -17,6 +17,7 @@ import {
   TrendingUp,
   ShoppingCart,
 } from "@mui/icons-material";
+import { useGetProductPromotionEventsQuery } from "../store/api/promotionsApi";
 
 // Mock promotional data - in a real app, this would come from an API
 const mockPromotions = [
@@ -79,6 +80,15 @@ const mockPromotions = [
 ];
 
 const Promotions: React.FC = () => {
+  const {
+    data: productPromotions,
+    isLoading,
+    error,
+  } = useGetProductPromotionEventsQuery();
+  console.log("productPromotions", productPromotions);
+  console.log("isLoading", isLoading);
+  console.log("error", error);
+
   const getDaysRemaining = (endDate: string) => {
     const end = new Date(endDate);
     const now = new Date();
@@ -92,11 +102,8 @@ const Promotions: React.FC = () => {
     // TODO: Navigate to products page with promotion filter
   };
 
-  const featuredPromotions = mockPromotions.filter((p) => p.featured);
-  const regularPromotions = mockPromotions.filter((p) => !p.featured);
-
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ mt: 10 }}>
       <Box sx={{ mb: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Promotions & Deals
@@ -106,58 +113,58 @@ const Promotions: React.FC = () => {
         </Typography>
       </Box>
 
-      {/* Featured Promotions */}
-      {featuredPromotions.length > 0 && (
-        <Box sx={{ mb: 6 }}>
-          <Typography variant="h5" component="h2" gutterBottom sx={{ mb: 3 }}>
-            Featured Offers
-          </Typography>
-          <Grid container spacing={3}>
-            {featuredPromotions.map((promotion) => (
-              <Grid item xs={12} key={promotion.id}>
+      {/* Regular Promotions */}
+      <Box>
+        <Typography variant="h5" component="h2" gutterBottom sx={{ mb: 3 }}>
+          All Promotions
+        </Typography>
+        <Grid container spacing={3}>
+          {productPromotions &&
+            productPromotions.map((item) => (
+              <Grid item xs={12} sm={6} md={3} key={item.id}>
                 <Card
                   sx={{
-                    position: "relative",
-                    overflow: "visible",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
                     "&:hover": {
                       transform: "translateY(-4px)",
                       transition: "transform 0.3s ease-in-out",
-                      boxShadow: 4,
+                      boxShadow: 3,
                     },
                   }}
                 >
                   <Box sx={{ position: "relative" }}>
                     <CardMedia
                       component="img"
-                      height="250"
-                      image={promotion.image}
-                      alt={promotion.title}
-                    />
-                    <Chip
-                      label="FEATURED"
-                      color="error"
-                      sx={{
-                        position: "absolute",
-                        top: 16,
-                        right: 16,
-                        fontWeight: "bold",
-                      }}
+                      height="200"
+                      image="https://placehold.co/250x200/EEE/31343C"
+                      alt={item.product.name}
                     />
                     <Chip
                       icon={<Timer />}
-                      label={`${getDaysRemaining(promotion.endDate)} days left`}
+                      label={`${getDaysRemaining(
+                        item.promotion.endDate
+                      )} days left`}
                       color="warning"
+                      size="small"
                       sx={{
                         position: "absolute",
-                        top: 16,
-                        left: 16,
+                        top: 8,
+                        right: 8,
                       }}
                     />
                   </Box>
-                  <CardContent>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                  <CardContent
+                    sx={{
+                      flexGrow: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
                       <Chip
-                        label={promotion.category}
+                        label={item.product.category.name}
                         size="small"
                         color="primary"
                         variant="outlined"
@@ -165,152 +172,35 @@ const Promotions: React.FC = () => {
                       />
                       <Chip
                         icon={<LocalOffer />}
-                        label={`${promotion.discount} OFF`}
+                        label={`${item.promotion.price_reduction} OFF`}
                         color="success"
+                        size="small"
                         sx={{ fontWeight: "bold" }}
                       />
                     </Box>
 
-                    <Typography variant="h5" component="h3" gutterBottom>
-                      {promotion.title}
-                    </Typography>
-
                     <Typography
-                      variant="body1"
-                      color="text.secondary"
-                      paragraph
+                      variant="h6"
+                      component="h3"
+                      gutterBottom
+                      sx={{ flexGrow: 1 }}
                     >
-                      {promotion.description}
+                      {item.product.name}
                     </Typography>
-
-                    {promotion.originalPrice > 0 && (
-                      <Box
-                        sx={{ display: "flex", alignItems: "center", mb: 2 }}
-                      >
-                        <Typography
-                          variant="h6"
-                          color="primary"
-                          sx={{ fontWeight: "bold", mr: 2 }}
-                        >
-                          ${promotion.discountedPrice}
-                        </Typography>
-                        <Typography
-                          variant="body1"
-                          color="text.secondary"
-                          sx={{ textDecoration: "line-through" }}
-                        >
-                          ${promotion.originalPrice}
-                        </Typography>
-                      </Box>
-                    )}
 
                     <Button
-                      variant="contained"
-                      size="large"
-                      startIcon={<ShoppingCart />}
-                      onClick={() => handleShopNow(promotion.id)}
-                      sx={{ mt: 2 }}
+                      variant="outlined"
+                      size="small"
+                      startIcon={<TrendingUp />}
+                      onClick={() => handleShopNow(item.promotion.id)}
+                      sx={{ mt: "auto" }}
                     >
-                      Shop Now
+                      View Details
                     </Button>
                   </CardContent>
                 </Card>
               </Grid>
             ))}
-          </Grid>
-        </Box>
-      )}
-
-      {/* Regular Promotions */}
-      <Box>
-        <Typography variant="h5" component="h2" gutterBottom sx={{ mb: 3 }}>
-          All Promotions
-        </Typography>
-        <Grid container spacing={3}>
-          {regularPromotions.map((promotion) => (
-            <Grid item xs={12} sm={6} md={4} key={promotion.id}>
-              <Card
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  "&:hover": {
-                    transform: "translateY(-4px)",
-                    transition: "transform 0.3s ease-in-out",
-                    boxShadow: 3,
-                  },
-                }}
-              >
-                <Box sx={{ position: "relative" }}>
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={promotion.image}
-                    alt={promotion.title}
-                  />
-                  <Chip
-                    icon={<Timer />}
-                    label={`${getDaysRemaining(promotion.endDate)} days left`}
-                    color="warning"
-                    size="small"
-                    sx={{
-                      position: "absolute",
-                      top: 8,
-                      right: 8,
-                    }}
-                  />
-                </Box>
-                <CardContent
-                  sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
-                >
-                  <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                    <Chip
-                      label={promotion.category}
-                      size="small"
-                      color="primary"
-                      variant="outlined"
-                      sx={{ mr: 1 }}
-                    />
-                    <Chip
-                      icon={<LocalOffer />}
-                      label={`${promotion.discount} OFF`}
-                      color="success"
-                      size="small"
-                      sx={{ fontWeight: "bold" }}
-                    />
-                  </Box>
-
-                  <Typography
-                    variant="h6"
-                    component="h3"
-                    gutterBottom
-                    sx={{ flexGrow: 1 }}
-                  >
-                    {promotion.title}
-                  </Typography>
-
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    paragraph
-                    sx={{ flexGrow: 1 }}
-                  >
-                    {promotion.description}
-                  </Typography>
-
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    startIcon={<TrendingUp />}
-                    onClick={() => handleShopNow(promotion.id)}
-                    sx={{ mt: "auto" }}
-                  >
-                    View Details
-                  </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
         </Grid>
       </Box>
 

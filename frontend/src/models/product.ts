@@ -1,3 +1,4 @@
+import type { Category } from './category';
 // Types for products
 export interface Product {
   id: number;

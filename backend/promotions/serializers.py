@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from .models import PromotionEvent, ProductPromotionEvent
+
+from .models import ProductPromotionEvent, PromotionEvent
+from products.serializers import ProductSerializer
 
 
 class PromotionEventSerializer(serializers.ModelSerializer):
@@ -9,6 +11,8 @@ class PromotionEventSerializer(serializers.ModelSerializer):
 
 
 class ProductPromotionEventSerializer(serializers.ModelSerializer):
+    promotion = PromotionEventSerializer(read_only=True, source='promotion_event')
+    product = ProductSerializer(read_only=True)
     class Meta:
         model = ProductPromotionEvent
-        fields = '__all__'
+        fields = ['id', 'promotion', 'product']
