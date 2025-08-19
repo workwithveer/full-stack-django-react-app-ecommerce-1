@@ -37,6 +37,16 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     class Meta:
         ordering = ["name"]
+        constraints = [
+            models.CheckConstraint(
+                check=models.Q(price__gt=0),
+                name="price_must_be_greater_than_zero",
+            ),
+            models.UniqueConstraint(
+                fields=["name"],
+                name="unique_product_name",
+            ),
+        ]
     def __str__(self):
         return self.name
 
