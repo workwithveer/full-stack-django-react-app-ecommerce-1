@@ -28,9 +28,7 @@ import {
   Save,
   Cancel,
   LocationOn,
-  Phone,
   Email,
-  CalendarToday,
 } from "@mui/icons-material";
 
 // Mock user data - in a real app, this would come from an API

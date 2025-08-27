@@ -16,9 +16,15 @@ class CategoryModelTest(TestCase):
         
 
 class ProductModelTest(TestCase):
-    def setUp(self):
-        self.category = Category.objects.create(name="Test Category", slug="test-category")
-        self.product = Product.objects.create(name="Test Product", slug="test-product", is_active=True, is_digital=False, price=100, category=self.category)
+    @classmethod
+    def setUpClass(cls):
+        cls.category = Category.objects.create(name="Test Category", slug="test-category")
+        cls.product = Product.objects.create(name="Test Product", slug="test-product", is_active=True, is_digital=False, price=100, category=cls.category)
+    
+    @classmethod
+    def tearDownClass(cls):
+        cls.category.delete()
+        cls.product.delete()
     
     def test_product_model_creation(self):
         self.assertEqual(self.product.name, "Test Product")

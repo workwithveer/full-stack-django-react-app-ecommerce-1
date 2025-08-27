@@ -15,7 +15,6 @@ import {
   LocalOffer,
   Timer,
   TrendingUp,
-  ShoppingCart,
 } from "@mui/icons-material";
 import { useGetProductPromotionEventsQuery } from "../store/api/promotionsApi";
 

@@ -9,22 +9,26 @@ import Products from "./pages/Products";
 import Cart from "./pages/Cart";
 import Promotions from "./pages/Promotions";
 import UserProfile from "./pages/UserProfile";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Router>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/promotions" element={<Promotions />} />
-            <Route path="/profile" element={<UserProfile />} />
-          </Routes>
-        </Layout>
-      </Router>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/promotions" element={<Promotions />} />
+              <Route path="/profile" element={<UserProfile />} />
+            </Routes>
+          </Layout>
+        </Router>
+      </ThemeProvider>
+    </Provider>
   );
 }
 
