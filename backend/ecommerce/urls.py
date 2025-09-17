@@ -16,10 +16,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.http import JsonResponse
 from drf_spectacular.views import (SpectacularAPIView, SpectacularRedocView,
                                    SpectacularSwaggerView)
 
+def home_view(request):
+    """Simple home view that provides API information"""
+    return JsonResponse({
+        'message': 'Welcome to the E-commerce API',
+        'version': '1.0.0',
+        'endpoints': {
+            'admin': '/admin/',
+            'api_docs': '/api/schema/swagger-ui/',
+            'products': '/api/products/',
+            'categories': '/api/categories/',
+            'orders': '/api/orders/',
+            'promotions': '/api/promotion-events/',
+        }
+    })
+
 urlpatterns = [
+    path('', home_view, name='home'),
     path('admin/', admin.site.urls),
     # API endpoints
     path('api/', include('products.urls')),
