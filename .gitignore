@@ -1,3 +1,22 @@
+# MSW
+public/mockServiceWorker.js
+
+/frontend/node_modules
+/frontend/dist
+/frontend/build
+/frontend/dist-ssr
+/frontend/*.local
+/frontend/.vscode
+/frontend/.idea
+/frontend/.DS_Store
+/frontend/*.suo
+/frontend/*.ntvs*
+/frontend/*.njsproj
+/frontend/*.sln
+/frontend/*.sw?
+/frontend/.env
+/frontend/.env.*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

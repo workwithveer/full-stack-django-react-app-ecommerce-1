@@ -6,11 +6,19 @@ import type {
 } from "../../models/product";
 import type { Category } from "../../models/category";
 
+// Determine base URL based on environment
+const getBaseUrl = () => {
+  const useMockServer = import.meta.env.VITE_USE_MOCK_SERVER === "true";
+  return useMockServer
+    ? "http://localhost:8000/api/"
+    : "http://localhost:8000/api/";
+};
+
 // Create the API slice
 export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000/api/",
+    baseUrl: getBaseUrl(),
     prepareHeaders: (headers) => {
       // Add any auth headers if needed
       headers.set("Content-Type", "application/json");

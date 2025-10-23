@@ -1,7 +1,6 @@
 import React from "react";
 import { ThemeProvider } from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { theme } from "./theme/theme";
 import { Layout } from "./components/layout/Layout";
 import Home from "./pages/Home";
@@ -16,17 +15,15 @@ function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <Router>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/promotions" element={<Promotions />} />
-              <Route path="/profile" element={<UserProfile />} />
-            </Routes>
-          </Layout>
-        </Router>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/promotions" element={<Promotions />} />
+            <Route path="/profile" element={<UserProfile />} />
+          </Routes>
+        </Layout>
       </ThemeProvider>
     </Provider>
   );
