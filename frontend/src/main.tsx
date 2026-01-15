@@ -10,7 +10,7 @@ import { theme } from "./theme/theme.ts";
 import "./index.css";
 
 // Start MSW worker in development
-if (process.env.NODE_ENV !== "development") {
+if (process.env.NODE_ENV == "development") {
   // Import MSW worker
   const { worker } = await import("./mocks/browser");
   worker.start();

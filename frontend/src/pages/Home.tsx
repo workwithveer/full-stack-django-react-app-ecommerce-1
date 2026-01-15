@@ -15,7 +15,7 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
-const Home: React.FC = () => {
+const Home = () => {
   const navigate = useNavigate();
   console.log("Home");
   const features = [
