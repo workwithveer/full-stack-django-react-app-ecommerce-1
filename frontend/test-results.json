@@ -1,0 +1,350 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\Dell\\Documents\\veer-dev\\Portfolio-Projects\\full-stack-django-react-app-ecommerce-1\\frontend\\playwright.config.ts",
+    "rootDir": "C:/Users/Dell/Documents/veer-dev/Portfolio-Projects/full-stack-django-react-app-ecommerce-1/frontend/e2e-tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 1800000,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 5
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/Dell/Documents/veer-dev/Portfolio-Projects/full-stack-django-react-app-ecommerce-1/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 5
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/Dell/Documents/veer-dev/Portfolio-Projects/full-stack-django-react-app-ecommerce-1/frontend/e2e-tests",
+        "testIgnore": [
+          "/*.unit.ts"
+        ],
+        "testMatch": [
+          "/*.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/Dell/Documents/veer-dev/Portfolio-Projects/full-stack-django-react-app-ecommerce-1/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 5
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "C:/Users/Dell/Documents/veer-dev/Portfolio-Projects/full-stack-django-react-app-ecommerce-1/frontend/e2e-tests",
+        "testIgnore": [
+          "/*.unit.ts"
+        ],
+        "testMatch": [
+          "/*.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/Dell/Documents/veer-dev/Portfolio-Projects/full-stack-django-react-app-ecommerce-1/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 5
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "C:/Users/Dell/Documents/veer-dev/Portfolio-Projects/full-stack-django-react-app-ecommerce-1/frontend/e2e-tests",
+        "testIgnore": [
+          "/*.unit.ts"
+        ],
+        "testMatch": [
+          "/*.spec.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 7,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "home.spec.ts",
+      "file": "home.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Home Page",
+          "file": "home.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "home page has heading 'Welcome to Our E-Commerce Store'",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4504,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-09T20:56:11.940Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "d318381359a9b96acb1e-5f359f0c592a4752f92f",
+              "file": "home.spec.ts",
+              "line": 7,
+              "column": 3
+            },
+            {
+              "title": "home page has buttons browse products, shopping cart, promotions, user profile",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 4608,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: 'Promotions' })\nExpected: visible\nError: strict mode violation: getByRole('button', { name: 'Promotions' }) resolved to 3 elements:\n    1) <button tabindex=\"0\" type=\"button\" class=\"MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit css-jrcgmp-MuiButtonBase-root-MuiButton-root\">Promotions</button> aka getByRole('button', { name: 'Promotions', exact: true })\n    2) <button tabindex=\"0\" type=\"button\" class=\"MuiButtonBase-root MuiCardActionArea-root css-1xuiyno-MuiButtonBase-root-MuiCardActionArea-root\">…</button> aka getByRole('button', { name: 'Promotions Discover amazing' })\n    3) <button tabindex=\"0\" type=\"button\" class=\"MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-1y6k45t-MuiButtonBase-root-MuiButton-root\">View Promotions</button> aka getByRole('button', { name: 'View Promotions' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Promotions' })\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: 'Promotions' })\nExpected: visible\nError: strict mode violation: getByRole('button', { name: 'Promotions' }) resolved to 3 elements:\n    1) <button tabindex=\"0\" type=\"button\" class=\"MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit css-jrcgmp-MuiButtonBase-root-MuiButton-root\">Promotions</button> aka getByRole('button', { name: 'Promotions', exact: true })\n    2) <button tabindex=\"0\" type=\"button\" class=\"MuiButtonBase-root MuiCardActionArea-root css-1xuiyno-MuiButtonBase-root-MuiCardActionArea-root\">…</button> aka getByRole('button', { name: 'Promotions Discover amazing' })\n    3) <button tabindex=\"0\" type=\"button\" class=\"MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-1y6k45t-MuiButtonBase-root-MuiButton-root\">View Promotions</button> aka getByRole('button', { name: 'View Promotions' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Promotions' })\u001b[22m\n\n    at C:\\Users\\Dell\\Documents\\veer-dev\\Portfolio-Projects\\full-stack-django-react-app-ecommerce-1\\frontend\\e2e-tests\\home.spec.ts:29:7",
+                        "location": {
+                          "file": "C:\\Users\\Dell\\Documents\\veer-dev\\Portfolio-Projects\\full-stack-django-react-app-ecommerce-1\\frontend\\e2e-tests\\home.spec.ts",
+                          "column": 7,
+                          "line": 29
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 27 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 28 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m\"button\"\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m\"Promotions\"\u001b[39m })\u001b[33m,\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 29 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 30 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 31 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m\"button\"\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m\"User Profile\"\u001b[39m })\u001b[33m,\u001b[39m\n \u001b[90m 32 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\Dell\\Documents\\veer-dev\\Portfolio-Projects\\full-stack-django-react-app-ecommerce-1\\frontend\\e2e-tests\\home.spec.ts",
+                            "column": 7,
+                            "line": 29
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: 'Promotions' })\nExpected: visible\nError: strict mode violation: getByRole('button', { name: 'Promotions' }) resolved to 3 elements:\n    1) <button tabindex=\"0\" type=\"button\" class=\"MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit MuiButton-root MuiButton-text MuiButton-textInherit MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-colorInherit css-jrcgmp-MuiButtonBase-root-MuiButton-root\">Promotions</button> aka getByRole('button', { name: 'Promotions', exact: true })\n    2) <button tabindex=\"0\" type=\"button\" class=\"MuiButtonBase-root MuiCardActionArea-root css-1xuiyno-MuiButtonBase-root-MuiCardActionArea-root\">…</button> aka getByRole('button', { name: 'Promotions Discover amazing' })\n    3) <button tabindex=\"0\" type=\"button\" class=\"MuiButtonBase-root MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeLarge MuiButton-outlinedSizeLarge MuiButton-colorPrimary css-1y6k45t-MuiButtonBase-root-MuiButton-root\">View Promotions</button> aka getByRole('button', { name: 'View Promotions' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Promotions' })\u001b[22m\n\n\n\u001b[0m \u001b[90m 27 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 28 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m\"button\"\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m\"Promotions\"\u001b[39m })\u001b[33m,\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 29 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 30 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\n \u001b[90m 31 |\u001b[39m       page\u001b[33m.\u001b[39mgetByRole(\u001b[32m\"button\"\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m\"User Profile\"\u001b[39m })\u001b[33m,\u001b[39m\n \u001b[90m 32 |\u001b[39m     )\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at C:\\Users\\Dell\\Documents\\veer-dev\\Portfolio-Projects\\full-stack-django-react-app-ecommerce-1\\frontend\\e2e-tests\\home.spec.ts:29:7\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-09T20:56:12.204Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\Dell\\Documents\\veer-dev\\Portfolio-Projects\\full-stack-django-react-app-ecommerce-1\\frontend\\test-results\\home-Home-Page-home-page-h-f0a63-art-promotions-user-profile-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\Dell\\Documents\\veer-dev\\Portfolio-Projects\\full-stack-django-react-app-ecommerce-1\\frontend\\e2e-tests\\home.spec.ts",
+                        "column": 7,
+                        "line": 29
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d318381359a9b96acb1e-216b198b946b50a3ab3d",
+              "file": "home.spec.ts",
+              "line": 17,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "products.spec.ts",
+      "file": "products.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Products Page",
+          "file": "products.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "products page has products in title",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 5134,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-09T20:56:11.921Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "000c94276132c4f97581-3196cbe652c4eab3a97a",
+              "file": "products.spec.ts",
+              "line": 10,
+              "column": 3
+            },
+            {
+              "title": "products page check all categories is selected and has the correct number of products",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 5739,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-09T20:56:12.251Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "000c94276132c4f97581-802481247aeb4d08e9b5",
+              "file": "products.spec.ts",
+              "line": 18,
+              "column": 3
+            },
+            {
+              "title": "Products page add to cart button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 5997,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-09T20:56:12.249Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "000c94276132c4f97581-4253e101012ad967c307",
+              "file": "products.spec.ts",
+              "line": 30,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-03-09T20:56:09.390Z",
+    "duration": 9799.671,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

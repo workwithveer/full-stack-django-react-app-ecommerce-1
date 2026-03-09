@@ -65,12 +65,13 @@ const Categories: React.FC<CategoriesProps> = ({
               },
             }}
           >
-            <ListItemText primary="All Categories" />
+            <ListItemText primary="All Categories" data-testid="AllCategories" />
             <Chip
               label={categories?.length || 0}
               size="small"
               color="default"
               variant="outlined"
+              data-testid="AllCategoriesCount"
             />
           </ListItemButton>
         </ListItem>

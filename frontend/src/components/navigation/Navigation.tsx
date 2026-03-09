@@ -177,7 +177,11 @@ export const Navigation: React.FC = () => {
             </IconButton>
 
             {/* Shopping Cart */}
-            <IconButton color="inherit" onClick={handleCartClick}>
+            <IconButton
+              color="inherit"
+              onClick={handleCartClick}
+              data-testid="ShoppingCartIcon"
+            >
               <Badge badgeContent={cartItemCount} color="secondary">
                 <CartIcon />
               </Badge>
